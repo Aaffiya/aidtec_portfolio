@@ -1,30 +1,46 @@
 import streamlit as st
-import requests
+import time
 
-# Define your GitHub repository URL and image directory
-github_repo_url = "https://raw.githubusercontent.com/yourusername/your-repo/master/"
-image_directory = "images/"
-
-# Create a dictionary with image filenames and descriptions
 image_info = {
-    "logo.jpg": "Logo Design - This is a description of the logo design.",
-    "banner.jpg": "Banner Design - This is a description of the banner design.",
-    "food_menu.jpg": "Food Menu - This is a description of the food menu.",
-    "book_cover.jpg": "Book Cover Design - This is a description of the book cover design.",
+    "logo.png": "Logo Design - Logo for Infoaid Tech.",
+    "banner.png": "Banner Design - Banner for Infoaid Tech.",
+    "food_menu.jpg": "Food Menu - This is a realistic image of a food menu.",
+    "bookcover.png": "Book Cover Design - This is a book cover related to an evil AI story.",
 }
 
-st.title("Portfolio Website")
 
-# Create a slider to navigate through images
-selected_image = st.selectbox("Select an Image", list(image_info.keys()))
+def main():
+    
+    st.write(
+        "<div style='text-align: center;'>"
+        "<h1>Portfolio Website</h1>"
+        "<h3>Welcome to my portfolio!</h3>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
 
-# Display the selected image
-st.image(github_repo_url + image_directory + selected_image, use_column_width=True)
 
-# Retrieve image description from the dictionary
-image_description = image_info[selected_image]
+    st.write("Below are some of my work examples during my internship at Infoaid Tech. Select an image from the dropdown menu to view.")
 
-# Display the image description
-st.write(f"**Description:** {image_description}")
+    selected_image = st.selectbox("Select Image", list(image_info.keys()), format_func=lambda x: image_info[x])
 
-# You can add more animations or interactivity as needed using Streamlit components
+  
+    image_description = image_info[selected_image]
+
+    image_container = st.empty()
+    image_container.image(selected_image, caption=image_description, use_column_width=True)
+
+
+    while True:
+        time.sleep(3)  
+
+    
+        selected_image_index = (list(image_info.keys()).index(selected_image) + 1) % len(image_info)
+        selected_image = list(image_info.keys())[selected_image_index]
+        image_description = image_info[selected_image]
+
+     
+        image_container.image(selected_image, caption=image_description, use_column_width=True)
+
+if __name__ == "__main__":
+    main()
